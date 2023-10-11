@@ -1,0 +1,69 @@
+.THIS .icon i {
+    transform: scale(.8,0.8);
+    margin-bottom: 0px;
+}
+.THIS .rating i {
+    font-size: 25px;
+    color: #ffc107;
+}
+.THIS .pricesubtitle {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+.THIS .quantity-container button:focus,
+.THIS .quantity-container input:focus {
+    outline: none;
+    box-shadow: none;
+}
+.THIS .quantity-container a,
+.THIS .quantity-container a:hover {
+    text-decoration: none;
+}
+.THIS .quantity-select {
+    display: inline-block;
+    max-width: 100%;
+    position: relative;
+    vertical-align: top;
+}
+.THIS .quantity-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.THIS .quantity-container .input-quantity {
+    text-align: center;
+    padding: 8px 10px;
+    border: 1px solid #dadada;
+    max-width: 80px;
+    border-radius: 4px;
+}
+.THIS .quantity-container .quantity-btn-minus,
+.THIS .quantity-container .quantity-btn-plus {
+    border: 1px solid #dadada;
+    background: white;
+    font-size: 28px;
+    padding-bottom: 6px;
+    line-height: 0 !important;
+    height: 38px;
+    width: 38px;
+    transition: .3s;
+    border-radius: 4px; 
+}
+.THIS .quantity-container .quantity-btn-plus {
+    margin-left: -1px;
+}
+.THIS .quantity-container .quantity-btn-minus {
+    margin-right: -1px;
+}
+.THIS .control-btn {
+    display: inline-grid;
+}
+.THIS .control-btn .is-primary {
+    margin-bottom:5px;
+    width: 200px;
+}
+.THIS .button {
+    padding-left: 1.5em;
+    padding-right: 2em;
+}

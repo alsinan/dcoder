@@ -1,0 +1,48 @@
+<aura:component controller="NavigationController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    
+    <aura:attribute name="username" type="String" />
+    <aura:attribute name="password" type="String" />
+    <aura:attribute name="ResetUsername" type="String" />
+    <aura:attribute name="mylabel" type="String"/>
+    <aura:attribute name="mylabel1" type="String"/>
+    <aura:attribute name="loginfailure" type="boolean" default="false"/>
+    <aura:handler event="aura:waiting" action="{!c.showSpinner}"/>
+    <aura:handler event="aura:doneWaiting" action="{!c.hideSpinner}"/>
+    <aura:attribute name="Spinner" type="boolean" default="false"/>
+    <aura:attribute name="isVisible" type="boolean" default="true"/>
+    
+    <div>
+        <form class="login">
+            <h2>Welcome to Fenvest.</h2>
+            <aura:if isTrue="{!v.loginfailure}">
+                <p class="err">Invalid username or password</p>
+                <aura:set attribute="else">
+                    <p>Log in with your Fenvest account</p>
+                </aura:set>
+            </aura:if>
+            <lightning:input aura:id="formval" label="Username"
+                             variant="label-hidden"
+                             name="Username"
+                             type="email"
+                             class="form-input"
+                             placeholder="username"
+                             value="{!v.username}"/>
+            <lightning:input aura:id="formval" label="Password"
+                             variant="label-hidden"
+                             name="password"
+                             type="password"
+                             class="form-input"
+                             placeholder="Password"
+                             value="{!v.password}"/>
+            <lightning:button label="Login"
+                              class="slds-m-top--medium form-button"
+                              variant="brand"
+                              onclick="{!c.getInput}"/>
+            <div class="links">
+                <a href="#">Forgot password?</a>
+                <a href="#">Signup</a>
+            </div>
+        </form>
+    </div>    
+    
+</aura:component>

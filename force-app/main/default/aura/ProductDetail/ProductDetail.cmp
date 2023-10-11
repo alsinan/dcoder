@@ -1,0 +1,254 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,force:hasRecordId" access="global" controller="NavigationController">
+    <ltng:require styles="{!$Resource.Bulma}" />
+    <ltng:require styles="{!$Resource.GoogleIcons}" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="showProductInfo" type="Boolean" default="true"/>
+    <aura:attribute name="product" type="Product2" default="{'sObjectType':'Product2'}"/>
+    <aura:attribute name="relatedProducts" type="Product2[]" default="[]"/>
+    <aura:attribute name="inSession" type="boolean" default="false"/>
+    <!-- product info -->
+    <section class="section">
+        <div class="container">
+            <nav class="breadcrumb" aria-label="breadcrumbs">
+                <ul>
+                    <li>
+                        <a href="/s">
+                            <span class="icon">
+                                <i class="material-icons" aria-hidden="true">home</i>
+                            </span>
+                            <span>Home</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/s/products">
+                            <span class="icon">
+                                <i class="material-icons" aria-hidden="true">inventory_2</i>
+                            </span>
+                            <span>Products</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="icon">
+                                <i class="material-icons" aria-hidden="true">category</i>
+                            </span>
+                            <span>{!v.product.Family}</span>
+                        </a>
+                    </li>
+                    <li class="is-active">
+                        <a href="#">
+                            <span class="icon">
+                                <i class="material-icons" aria-hidden="true">bedroom_child</i>
+                            </span>
+                            <span>{!v.product.Name}</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="columns is-vcentered is-multiline">
+                <div class="column is-6-tablet is-3-desktop">
+                    <h1 class="is-size-3-mobile is-size-1-desktop title">{!v.product.Family}</h1>
+                    <h2 class="is-size-3-mobile is-size-2-desktop subtitle">{!v.product.Name}</h2>
+                    <p>{!v.product.Description}</p>
+                </div>
+                <div class="column is-6-tablet is-5-desktop has-text-centered">
+                    <img src="{!v.product.DisplayUrl}" alt="{!v.product.Name}" class="px-6"/>
+                </div>  
+                <div class="column is-12-tablet is-4-desktop">
+                    <div class="is-size-4 mb-4">
+                        <div class="price-tag">
+                            <p class="pricesubtitle">Our price</p>
+                            <lightning:formattedNumber value="{!v.product.PricebookEntries[0].UnitPrice}" style="currency" currencyCode="USD"/>
+                        </div>
+                    </div>
+                    <p class="pricesubtitle">Customer reviews</p>
+                    <p class="mb-4 rating">
+                        <aura:if isTrue="{!v.product.Rating__c == '1'}">
+                            <i class="material-icons" aria-hidden="true">star</i>
+                        </aura:if>
+                        <aura:if isTrue="{!v.product.Rating__c == '2'}">
+                            <i class="material-icons" aria-hidden="true">star</i>
+                            <i class="material-icons" aria-hidden="true">star</i>
+                        </aura:if>
+                        <aura:if isTrue="{!v.product.Rating__c == '3'}">
+                            <i class="material-icons" aria-hidden="true">star</i>
+                            <i class="material-icons" aria-hidden="true">star</i>
+                            <i class="material-icons" aria-hidden="true">star</i>
+                        </aura:if>
+                        <aura:if isTrue="{!v.product.Rating__c == '4'}">
+                            <i class="material-icons" aria-hidden="true">star</i>
+                            <i class="material-icons" aria-hidden="true">star</i>
+                            <i class="material-icons" aria-hidden="true">star</i>
+                            <i class="material-icons" aria-hidden="true">star</i>
+                        </aura:if>
+                        <aura:if isTrue="{!v.product.Rating__c == '5'}">
+                            <i class="material-icons" aria-hidden="true">star</i>
+                            <i class="material-icons" aria-hidden="true">star</i>
+                            <i class="material-icons" aria-hidden="true">star</i>
+                            <i class="material-icons" aria-hidden="true">star</i>
+                            <i class="material-icons" aria-hidden="true">star</i>
+                        </aura:if>
+                    </p>
+                    <form>
+                        <aura:if isTrue="{!v.inSession}">
+                            <div class="control my-5">
+                                <p class="pricesubtitle">Add quantity</p>
+                                <div class="is-dark quantity-select">
+                                    <div class="quantity-container">
+                                        <button class="quantity-btn-minus btn-primary btn-rounded mr-1" type="button">-</button>
+                                        <input type="text" name="quantity" value="1" class="input-quantity input-rounded"/>
+                                        <button class="quantity-btn-plus btn-primary btn-rounded ml-1" type="button">+</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </aura:if>
+                        <aura:if isTrue="{!v.inSession}">
+                            <div class="control-btn">
+                                <button class="button is-primary is-outlined" id="add-to-cart">Add to Cart</button>
+                                <button class="button is-primary is-outlined" id="buy-now">Buy Now</button>
+                            </div>
+                        </aura:if>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns is-8 is-variable">
+                <div class="column is-7-tablet">
+                    <!-- tabbed content -->
+                    <div class="tabs is-boxed">
+                        <ul>
+                            <li class="{!v.showProductInfo == true? 'is-active' : ''}" data-target="product-details">
+                                <a id="product-info" onclick="{!c.switchInfoTab}">Product Details</a>
+                            </li>
+                            <li class="{!v.showProductInfo == false? 'is-active' : ''}" data-target="delivery-info">
+                                <a id="delivery-info" onclick="{!c.switchInfoTab}">Delivery Information</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="px-2" id="tab-content">
+                        <div class="{!v.showProductInfo == true? '' : 'is-hidden'}" id="product-details">
+                            <h3 class="is-size-5 title">Product Details</h3>
+                            <article class="media">
+                                <div class="media-content">
+                                    <div class="content">
+                                        <p>
+                                            Brand
+                                            <br/>
+                                            <strong>{!v.product.Family}</strong>                                        
+                                        </p>
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="media">
+                                <div class="media-content">
+                                    <div class="content">
+                                        <p>
+                                            Product Name
+                                            <br/>
+                                            <strong>{!v.product.Name}</strong>                                        
+                                        </p>
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="media">
+                                <div class="media-content">
+                                    <div class="content">
+                                        <p>
+                                            Product Code
+                                            <br/>
+                                            <strong>{!v.product.ProductCode}</strong>                                        
+                                        </p>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="{!v.showProductInfo == false? '' : 'is-hidden'}" id="delivery-info">
+                            <h3 class="is-size-5 title">Delivery Information</h3>
+                            <article class="media">
+                                <div class="media-content">
+                                    <div class="content">
+                                        <p>
+                                            Seller Address
+                                            <br/>
+                                            <strong>{!v.product.Family}, Westside Arcade, Culver City, Los Angeles, CA, 90232 USA</strong>                                        
+                                        </p>
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="media">
+                                <div class="media-content">
+                                    <div class="content">
+                                        <p>
+                                            Expected Delivery
+                                            <br/>
+                                            <strong>4 Business Days</strong>                                        
+                                        </p>
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="media">
+                                <div class="media-content">
+                                    <div class="content">
+                                        <p>
+                                            Mode of Shipping
+                                            <br/>
+                                            <strong>FedEx International</strong>                                        
+                                        </p>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+                <!--<div class="column is-5-tablet">
+                    <div class="message">
+                        <div class="message-header">
+                            <p>Earn Points with the Techie Club</p>
+                        </div>
+                        <div class="message-body">
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni architecto nostrum quae earum dolores, non rerum necessitatibus iste neque esse vero. Perspiciatis eos explicabo illum modi maiores placeat obcaecati quos.</p>
+                            <div class="has-text-centered mt-5">
+                                <button class="button" id="signup">Sign Up</button>    
+                            </div>
+                        </div>
+                    </div>
+                </div>-->
+            </div>
+        </div>
+    </section>
+    
+    <!-- cards -->
+    <section class="section is-hidden-mobile">
+        <div class="container">
+            <aura:if isTrue="{!not(empty(v.relatedProducts))}">
+                <h3 class="title has-text-centered is-size-4">Related Products</h3>
+            </aura:if>
+            
+            <div class="columns mt-5 is-8 is-variable is-centered">
+                <aura:iteration items="{!v.relatedProducts}" var="item">
+                    <div class="column is-4-tablet is-3-desktop">
+                        <div class="card">
+                            <div class="card-image has-text-centered px-6">
+                                <img src="{!item.DisplayUrl}" alt="product"/>
+                            </div>
+                            <div class="card-content">
+                                <p class="subtitle is-6">{!item.Family}</p>
+                                <p class="title is-size-5">{!item.Name}</p>
+                            </div>
+                            <footer class="card-footer">
+                                <p class="card-footer-item">
+                                    <a href="{!'/'+item.Id}" class="has-text-grey">View Product</a>
+                                </p>
+                            </footer>
+                        </div>
+                    </div>
+                </aura:iteration>
+            </div>
+        </div>
+    </section>
+    
+</aura:component>

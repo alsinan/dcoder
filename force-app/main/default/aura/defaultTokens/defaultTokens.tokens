@@ -1,0 +1,5 @@
+<aura:tokens>
+    <aura:token name="primaryColor" value="#ef5350"/>
+    <aura:token name="secondaryColor" value="#d3d3d3"/>
+    <aura:token name="backgroundColor" value="#ffffff"/>
+</aura:tokens>

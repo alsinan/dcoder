@@ -1,0 +1,12 @@
+.THIS .card-image .image {
+    object-fit: cover;
+    width: 12em;
+    height: 10em;
+    margin: 0 auto;
+}
+.THIS .mainheader span {
+    color: token(primaryColor);
+}
+.THIS .nomargin {
+    margin-bottom: 0 !important;
+}

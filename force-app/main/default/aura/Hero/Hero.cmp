@@ -1,0 +1,16 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+	 <ltng:require styles="{!$Resource.Bulma}" />
+        
+    <section class="hero is-danger is-fullheight">
+        <div class="hero-body">
+            <div class="">
+                <p class="title">
+                    John Drake, welcome to Fenvest.
+                </p>
+                <p class="subtitle">
+                    We help building spectacular structures and buildings.
+                </p>
+            </div>
+        </div>
+    </section>
+</aura:component>

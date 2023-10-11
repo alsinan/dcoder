@@ -1,0 +1,55 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="NavigationController">
+    <ltng:require styles="{!$Resource.Bulma}" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="productList" type="Product2[]" default="[]"/>
+    
+    <div class="container">
+        <div class="section">
+            <div class="columns">
+                <div class="column has-text-centered">
+                    <h1 class="title mainheader">SHOP WITH <span>US.</span></h1>
+                    <h1 class="subtitle">Handpicked favourites just for you.</h1>
+                </div>
+            </div>
+            <div id="app" class="row columns is-multiline">
+                <aura:iteration items="{!v.productList}" var="item">
+                    <div v-for="card in cardData" key="card.id" class="column is-4">
+                        <div class="card large">
+                            <div class="card-image">
+                                <figure class="image is-16by9">
+                                    <img src="{!item.DisplayUrl}" alt="Image"/>
+                                </figure>
+                            </div>
+                            <div class="card-content">
+                                <div class="media nomargin">
+                                    <div class="media-content">
+                                        <p> 
+                                            <span class="title is-6">
+                                                <a href="">{!item.Family}</a> 
+                                            </span>
+                                        </p>
+                                        <p class="title is-4 no-padding">{!item.Name}</p>
+                                        <p>
+                                            <span class="title is-6">
+                                                <lightning:formattedNumber value="{!item.PricebookEntries[0].UnitPrice}" style="currency" currencyCode="USD"/>
+                                            </span> 
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="content">
+                                    <div class="background-icon"><span class="icon-twitter"></span></div>
+                                </div>
+                            </div>
+                            <footer class="card-footer">
+                                <p class="card-footer-item">
+                                    <a href="{!'/'+item.Id}" class="has-text-grey">View</a>
+                                </p>
+                            </footer>
+                        </div>
+                    </div>
+                </aura:iteration>
+            </div>
+        </div>
+    </div>
+    
+</aura:component>

@@ -1,0 +1,67 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" 
+                access="global" controller="NavigationController">
+    <ltng:require styles="{!$Resource.Bulma}" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="inSession" type="boolean" default="false"/>
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="">
+                <img src="{!$Resource.Fenvest}"/>
+            </a>
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="/s">
+                    Home
+                </a>
+                <a class="navbar-item" href="/s/products">
+                    Products
+                </a>
+                <aura:if isTrue="{!v.inSession}">
+                    <div class="navbar-item has-dropdown is-hoverable">
+                        <a class="navbar-link">
+                            Account
+                        </a>
+                        <div class="navbar-dropdown">
+                            <a class="navbar-item" href="/s/products">
+                                My Cart
+                            </a>
+                            <a class="navbar-item" href="/s/products">
+                                My Wishlist
+                            </a>
+                            <a class="navbar-item" href="/s/products">
+                                Order History
+                            </a>
+                            <hr class="navbar-divider"/>
+                            <a class="navbar-item">
+                                Manage Account
+                            </a>
+                        </div>
+                    </div>
+                </aura:if>
+            </div>
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="buttons">
+                        <aura:if isTrue="{!v.inSession}">
+                            <a class="button is-light" onclick="{!c.logout}">
+                                Log out
+                            </a>
+                            <aura:set attribute="else">
+                                <a class="button is-primary" href="/s/login/">
+                                    <strong>Log in</strong>
+                                </a>
+                            </aura:set>
+                        </aura:if>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</aura:component>
