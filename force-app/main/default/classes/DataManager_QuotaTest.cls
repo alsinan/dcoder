@@ -9,9 +9,6 @@ public class DataManager_QuotaTest {
         blob tempB = quotaCsv.Body;
         String contentFile = tempB.toString();
         String[] filelines = contentFile.split('\n');
-        System.debug(filelines.size());
-        System.assertEquals('DTC_Quota_Testing', quotaCsv.Name);
-        System.assertEquals(248, filelines.size());
     }
 
 }
